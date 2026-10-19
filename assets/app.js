@@ -197,7 +197,7 @@
                    tickMarkFormatter: function (t, type) { return tFmt(t, type < 3); } },
       crosshair: { mode: 0 },
       handleScroll: { mouseWheel: false, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: true },
-      handleScale: { axisPressedMouseMove: true, mouseWheel: false, pinch: true },
+      handleScale: { axisPressedMouseMove: true, mouseWheel: true, pinch: true, axisDoubleClickReset: true },
       localization: { priceFormatter: function (p) { return fmtPrice(p); },
                       timeFormatter: function (t) { return tFmt(t, true); } }
     });
@@ -250,13 +250,25 @@
       ctx.clearRect(0, 0, dim.w, dim.h);
       if (!sig.entry_at) return;
       var ts = chart.timeScale();
+      var paneW = (ts.width && ts.width()) || dim.w;
       var startT = core.posted_at + 60;   /* assumed 1-minute execution delay */
       var x1 = ts.timeToCoordinate(snap(startT, sig.candles));
       var endTime = (ex && ex.time) ? ex.time / 1000 : sig.candles[sig.candles.length - 1][0];
-      var x2 = ts.timeToCoordinate(snap(endTime, sig.candles));
+      var exitX = ts.timeToCoordinate(snap(endTime, sig.candles));
       if (x1 === null || x1 === undefined) x1 = 0;
-      if (x2 === null || x2 === undefined) x2 = dim.w;
-      if (x2 < x1) { var tmp = x1; x1 = x2; x2 = tmp; }
+      if (exitX === null || exitX === undefined) exitX = paneW;
+      if (exitX < x1) { var tmp = x1; x1 = exitX; exitX = tmp; }
+      /* Let the position box run a little past the exit (never a thin sliver) and stay on screen. */
+      var MIN_W = 34, TAIL = 16;
+      var x2;
+      if (ex && ex.time) {
+        x2 = exitX + TAIL;
+        if (x2 < x1 + MIN_W) x2 = x1 + MIN_W;
+        if (x2 > paneW - 2) x2 = paneW - 2;
+        if (x2 < x1) x2 = x1;
+      } else {
+        x2 = Math.min(exitX, paneW - 2);
+      }
       var yEntry = series.priceToCoordinate(core.entry);
       var ySl = series.priceToCoordinate(core.sl);
       var yTp = series.priceToCoordinate(core.targets[core.targets.length - 1]);
@@ -447,6 +459,10 @@
 
     modal = document.getElementById("modal");
     document.getElementById("mClose").addEventListener("click", function () { modal.classList.remove("on"); destroy(); });
+    var zr = document.getElementById("zoomReset");
+    if (zr) zr.addEventListener("click", function () {
+      live.forEach(function (o) { try { o.chart.timeScale().fitContent(); } catch (e) {} });
+    });
     modal.addEventListener("click", function (e) { if (e.target === modal) { modal.classList.remove("on"); destroy(); } });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && modal.classList.contains("on")) { modal.classList.remove("on"); destroy(); }
