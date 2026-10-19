@@ -7,11 +7,11 @@
   var current = -1;
   var hidden = {};
   var PANELS = [
-    { key: "claim", r: "claim_r", exit: "claim" },
-    { key: "hold", r: "r_hold", exit: "hold" },
-    { key: "entry", r: "r_entry", exit: "entry" },
-    { key: "tp1", r: "r_tp1", exit: "tp1" },
-    { key: "tp2", r: "r_tp2", exit: "tp2" }
+    { key: "claim", r: "claim_r", exit: "claim", short: "Claim" },
+    { key: "hold", r: "r_hold", exit: "hold", short: "Hold" },
+    { key: "entry", r: "r_entry", exit: "entry", short: "Entry" },
+    { key: "tp1", r: "r_tp1", exit: "tp1", short: "TP1" },
+    { key: "tp2", r: "r_tp2", exit: "tp2", short: "TP2" }
   ];
   var UNRESOLVED = ["OPEN", "OPEN/ACTIVE", "WAITING_ENTRY", "AMBIGUOUS", "NO_ENTRY", "NEEDS_REVIEW", "PRICE_UNAVAILABLE"];
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -301,6 +301,80 @@
       setPanel(p.key, sig, sig[p.r], note);
     });
   }
+
+  /* ---------- event timeline ---------- */
+  function tlPrice(kind, core) {
+    if (kind === "ENTRY" || kind === "RETRACE_ENTRY") return core.entry;
+    if (kind === "SL") return core.sl;
+    var m = /^(?:RETRACE_)?TP([1-4])$/.exec(kind);
+    return m ? core.targets[parseInt(m[1], 10) - 1] : null;
+  }
+  function tlGrossR(price, core) {
+    if (price === null || price === undefined) return null;
+    var d = core.side === "BUY" ? 1 : -1;
+    var risk = d * (core.entry - core.sl);
+    if (!risk) return null;
+    return d * (price - core.entry) / risk;
+  }
+  function tlLabel(kind) {
+    if (kind === "ENTRY") return "Entry filled";
+    if (kind === "SL") return "Stop loss hit";
+    var m = /^TP([1-4])$/.exec(kind);
+    if (m) return "TP" + m[1] + " reached";
+    var r = /^RETRACE_TP([1-4])$/.exec(kind);
+    if (r) return "Retraced to TP" + r[1];
+    if (kind === "RETRACE_ENTRY") return "Retraced to entry";
+    return kind;
+  }
+  function tlTone(kind) {
+    if (kind === "ENTRY") return "entry";
+    if (kind === "SL") return "sl";
+    if (/^RETRACE/.test(kind)) return "retrace";
+    if (/^TP/.test(kind)) return "tp";
+    return "meta";
+  }
+  function tShort(ms) {
+    var w = wib(ms / 1000);
+    return w.day.split(" ").slice(0, 2).join(" ") + " " + w.clock.slice(0, 5);
+  }
+  function renderTimeline(sig) {
+    var list = document.getElementById("tlList");
+    var chips = document.getElementById("tlExits");
+    if (!list) return;
+    var core = sig.core, items = [];
+    items.push({ t: core.posted_at * 1000, kind: "PUB", label: "Published \u00b7 provider status ", meta: core.provider_status });
+    items.push({ t: core.posted_at * 1000 + 60000, kind: "EXEC", label: "Execution window opens (T+1 min)" });
+    (sig.tl || []).forEach(function (e) {
+      var kind = e[0], ts = e[1];
+      var price = tlPrice(kind, core);
+      items.push({ t: ts, kind: kind, price: price, r: tlGrossR(price, core) });
+    });
+    if (!sig.entry_at) {
+      items.push({ t: null, kind: "NOTE", label: "Entry never touched within the 4-day window \u2014 no fill." });
+    }
+    var rows = items.map(function (it) {
+      var priceTxt = (it.price === null || it.price === undefined) ? "" : fmtPrice(it.price);
+      var rTxt = (it.r === null || it.r === undefined) ? "" : fmtR(it.r);
+      var tone = it.kind === "PUB" || it.kind === "EXEC" || it.kind === "NOTE" ? "meta" : tlTone(it.kind);
+      var label = it.label || tlLabel(it.kind);
+      var tail = it.meta ? "<em>" + esc(it.meta) + "</em>" : "";
+      return '<li class="tl-item"><span class="tl-time">' + (it.t === null ? "\u2014" : esc(tShort(it.t))) + "</span>" +
+        '<span class="tl-dot ' + tone + '"></span>' +
+        '<span class="tl-label">' + label + tail + "</span>" +
+        '<span class="tl-price">' + esc(priceTxt) + "</span>" +
+        '<span class="tl-r ' + signClass(it.r === null || it.r === undefined ? null : it.r) + '">' + esc(rTxt) + "</span></li>";
+    }).join("");
+    list.innerHTML = rows;
+    var out = [];
+    PANELS.forEach(function (p) {
+      var ex = (sig.exits || {})[p.exit] || null;
+      var r = sig[p.r];
+      var cls = r === null || r === undefined ? "" : (r > 0 ? "pos" : r < 0 ? "neg" : "");
+      var where = ex ? ex.reason + " @ " + fmtPrice(ex.price) : "no exit";
+      out.push('<span class="tl-exit ' + cls + '">' + p.short + " <b>" + fmtR(r) + "</b> \u00b7 " + esc(where) + "</span>");
+    });
+    chips.innerHTML = out.join("");
+  }
   function open(idx) {
     var sig = SIG[idx];
     if (!sig) return;
@@ -320,6 +394,7 @@
     hidden = {};
     document.querySelectorAll("#modelToggle .mtog").forEach(function (b) { b.setAttribute("aria-pressed", "true"); });
     renderPanels(sig);
+    renderTimeline(sig);
   }
 
   function wireTable() {

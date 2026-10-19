@@ -347,6 +347,29 @@ th[data-sort]:hover .arrow{color:var(--accent)}
 .chart-box{height:300px;width:100%;position:relative}
 .chart-box canvas.posbox{position:absolute;left:0;top:0;pointer-events:none;z-index:6}
 .cp-note{padding:8px 13px;font-size:11.5px;color:var(--faint);border-top:1px solid var(--line)}
+.tl{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);overflow:hidden}
+.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 13px;border-bottom:1px solid var(--line);font:700 12px var(--sans);letter-spacing:.03em}
+.tl-head span{font:400 11px var(--mono);color:var(--faint);letter-spacing:0}
+.tl-list{list-style:none;margin:0;padding:4px 13px 10px}
+.tl-item{display:grid;grid-template-columns:94px 12px 1fr auto auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.tl-item:last-child{border-bottom:none}
+.tl-time{font:600 10.5px var(--mono);color:var(--faint)}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--faint);justify-self:center}
+.tl-dot.tp{background:var(--pos)}
+.tl-dot.sl{background:var(--neg)}
+.tl-dot.retrace{background:#b8860b}
+.tl-dot.entry{background:#0d6b62}
+.tl-dot.meta{background:var(--line-strong)}
+.tl-label{font-size:12.5px;color:var(--ink)}
+.tl-label em{font-style:normal;color:var(--faint);font-size:11.5px}
+.tl-price{font:600 11.5px var(--mono);color:var(--muted);text-align:right;min-width:74px}
+.tl-r{font:700 11.5px var(--mono);text-align:right;min-width:58px}
+.tl-r.pos{color:var(--pos)}.tl-r.neg{color:var(--neg)}.tl-r.zero{color:var(--faint)}
+.tl-exits{display:flex;flex-wrap:wrap;gap:6px;padding:0 13px 13px}
+.tl-exit{font:600 11px var(--mono);border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:var(--muted)}
+.tl-exit b{color:var(--ink);font-weight:700}
+.tl-exit.pos b{color:var(--pos)}.tl-exit.neg b{color:var(--neg)}
+.tl-empty{padding:10px 13px;font-size:12px;color:var(--faint)}
 .win-table{width:100%;border-collapse:collapse;min-width:0;table-layout:auto;margin-top:4px}
 .win-table th{font:700 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .win-table td{padding:10px 8px;border-bottom:1px solid var(--line);font-size:13px}
