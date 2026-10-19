@@ -435,6 +435,80 @@
     });
   }
 
+  /* ---------- sticky ledger header (follows page scroll) ---------- */
+  function wireStickyHead() {
+    var wrap = document.querySelector(".table-wrap");
+    if (!wrap) return;
+    var table = wrap.querySelector("table");
+    var realThead = table ? table.querySelector("thead") : null;
+    if (!realThead) return;
+    var realHeads = realThead.querySelectorAll("th");
+    var nav = document.querySelector(".nav");
+
+    var sticky = document.createElement("div");
+    sticky.className = "sticky-head";
+    sticky.setAttribute("aria-hidden", "true");
+    var viewport = document.createElement("div");
+    viewport.className = "sh-viewport";
+    var stable = document.createElement("table");
+    stable.className = "sh-table";
+    stable.appendChild(realThead.cloneNode(true));
+    viewport.appendChild(stable);
+    sticky.appendChild(viewport);
+    document.body.appendChild(sticky);
+    var cloneHeads = stable.querySelectorAll("th");
+
+    function syncArrows() {
+      for (var i = 0; i < cloneHeads.length; i++) {
+        var src = realHeads[i];
+        if (!src) continue;
+        var sa = src.querySelector(".arrow"), ca = cloneHeads[i].querySelector(".arrow");
+        if (ca) ca.textContent = sa ? sa.textContent : "";
+      }
+    }
+    function size() {
+      var w = 0;
+      for (var i = 0; i < realHeads.length; i++) {
+        var cw = realHeads[i].getBoundingClientRect().width;
+        if (cloneHeads[i]) cloneHeads[i].style.width = cw + "px";
+        w += cw;
+      }
+      stable.style.width = Math.ceil(w) + "px";
+      syncArrows();
+    }
+    function update() {
+      var rect = wrap.getBoundingClientRect();
+      var navH = nav ? nav.offsetHeight : 0;
+      var headH = realThead.getBoundingClientRect().height || 40;
+      var show = rect.top < navH && rect.bottom > navH + headH;
+      sticky.classList.toggle("on", show);
+      if (!show) return;
+      sticky.style.top = navH + "px";
+      sticky.style.left = rect.left + "px";
+      sticky.style.width = rect.width + "px";
+      viewport.scrollLeft = wrap.scrollLeft;
+      syncArrows();
+    }
+
+    stable.addEventListener("click", function (e) {
+      var th = e.target && e.target.closest ? e.target.closest("th[data-sort]") : null;
+      if (!th) return;
+      var idx = Array.prototype.indexOf.call(cloneHeads, th);
+      if (idx >= 0 && realHeads[idx]) realHeads[idx].click();
+      syncArrows();
+    });
+
+    size();
+    update();
+    requestAnimationFrame(function () { size(); update(); });
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", function () { size(); update(); });
+    wrap.addEventListener("scroll", update, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { size(); update(); });
+    }
+  }
+
   function init(data) {
     SIG = (data.signals || []).slice().sort(function (a, b) { return b.core.posted_at - a.core.posted_at; });
     var tbody = document.getElementById("tbody");
@@ -456,6 +530,7 @@
     });
     wireTable();
     apply();
+    wireStickyHead();
 
     modal = document.getElementById("modal");
     document.getElementById("mClose").addEventListener("click", function () { modal.classList.remove("on"); destroy(); });
