@@ -33,11 +33,12 @@
       <li class="chip">Resolved <b>2210</b></li>
       <li class="chip">Time zone <b>UTC+7</b></li>
       <li class="chip">Stop model <b>stop1 · hold to final</b></li>
+      <li class="chip">Costs <b>maker 0.02% / taker 0.05%</b></li>
       <li class="chip">Chart <b>TradingView Lightweight</b></li>
     </ul>
   </header><section class="grid-2" aria-label="Headline comparison">
     <article class="card">
-      <div class="card-head"><h2><span class="dot"></span>LuxQuant claim</h2><span class="sub">2335 resolved</span></div>
+      <div class="card-head"><h2><span class="dot"></span>LuxQuant claim (gross)</h2><span class="sub">2335 resolved</span></div>
       <dl class="kpis">
         <div><dt>Win rate</dt><dd>83.4%</dd></div>
         <div><dt>Net R</dt><dd class="pos">+3243.62R</dd></div>
@@ -47,7 +48,7 @@
       <div class="bar-track"><div class="bar-fill" style="--w:83.4%"></div></div></div>
     </article>
     <article class="card real">
-      <div class="card-head"><h2><span class="dot"></span>Real Replay Market (hold to final)</h2><span class="sub">2210 resolved</span></div>
+      <div class="card-head"><h2><span class="dot"></span>Real Replay Market (after fees)</h2><span class="sub">2210 resolved</span></div>
       <dl class="kpis">
         <div><dt>Win rate</dt><dd>12.3%</dd></div>
         <div><dt>Net R</dt><dd class="neg">-770.68R</dd></div>
@@ -62,7 +63,7 @@
     <span>Net R <b class="neg">+4014.30R</b></span>
     <span>Avg R <b class="neg">+1.738</b></span>
   </div><section class="models" aria-label="Exit-management comparison">
-    <h2>Exit-management scenarios <span>same candles, same entries · net R across resolved signals</span></h2>
+    <h2>Exit-management scenarios <span>same candles, same entries · net R after Binance maker 0.02% / taker 0.05% fees</span></h2>
     <table class="model-table">
       <thead><tr><th>Model</th><th class="num">Resolved</th><th class="num">Win rate</th><th class="num">Net R</th><th class="num">Avg R</th></tr></thead>
       <tbody><tr><td><b>hold to final</b><span class="mnote">stop stays at SL1</span></td><td class="num">2210</td><td class="num">12.3%</td><td class="num neg">-770.68R</td><td class="num">-0.349</td></tr>
@@ -109,7 +110,7 @@
         <thead><tr>
           <th>Pair</th><th data-sort="time" data-col="posted">Published <span class="arrow" data-arrow="posted">▼</span></th><th>Dir</th><th>Levels</th>
           <th>Claim</th><th>Real</th><th>Verdict</th><th>Detail</th>
-          <th class="num" data-sort="num" data-col="claim">Claim R <span class="arrow" data-arrow="claim"></span></th>
+          <th class="num" data-sort="num" data-col="claim">Claim R (gross) <span class="arrow" data-arrow="claim"></span></th>
           <th class="num" data-sort="num" data-col="r_hold">hold to final <span class="arrow" data-arrow="r_hold"></span></th><th class="num" data-sort="num" data-col="r_entry">move to entry after TP1 <span class="arrow" data-arrow="r_entry"></span></th><th class="num" data-sort="num" data-col="r_tp1">move to TP1 after TP1 <span class="arrow" data-arrow="r_tp1"></span></th><th class="num" data-sort="num" data-col="r_tp2">move SL to TP2 after TP1 <span class="arrow" data-arrow="r_tp2"></span></th>
           <th>Charts</th>
         </tr></thead>
@@ -136,6 +137,9 @@
   <p><b>Claim</b> = the exit implied by the provider’s published status (exit at the touched target, or −1R if reported loss).
   <b>Real Replay Market</b> = the same signal replayed on Binance USD-M 1-minute candles: entry on touch, stop stays at <b>SL1</b>,
   position held <b>to the final target</b> unless a different model is selected.</p>
+  <p><b>Costs.</b> Every replayed R uses the app’s Binance USD-M cost model: <b>maker 0.02%</b> on the limit entry and
+  <b>taker 0.05%</b> on each exit; funding is not applied. <b>Claim R</b> is the gross price ratio with no costs, so on the same
+  target it is slightly higher than the replayed R (for example a full-target trade can read +4.03R gross versus +3.91R after fees).</p>
   <p><b>Verdict</b> compares the claim with the observed path: CONFLICT (target claimed but stop hit first, or loss claimed
   although a target was reached), PARTIAL (target reached, then stopped), MATCH (claim matches), OPEN (unresolved).</p>
   <p>The R columns are the same candles and entries under different stop management:

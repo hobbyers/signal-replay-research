@@ -57,12 +57,16 @@
     value of stop management, not a different set of trades.</p>
     <p><b>Limits.</b> Intrabar order is unknown. When a candle touches both the stop and a target the replay refuses to guess and
     marks the signal ambiguous or unavailable. Symbols that are delisted, renamed, or never listed on Binance USD-M are excluded
-    from the replay side and shown honestly. Fees and funding are excluded here for clarity. This is research, not trading advice,
-    and a past touch is not evidence of a profitable trade.</p>
+    from the replay side and shown honestly. Replayed R includes Binance USD-M maker 0.02% entry and taker 0.05% exit fees;
+    funding is not applied. Claim R is a gross price ratio and therefore reads slightly higher on the same target. This is research,
+    not trading advice, and a past touch is not evidence of a profitable trade.</p>
   </section><footer class="notes">
   <p><b>Claim</b> = the exit implied by the provider’s published status (exit at the touched target, or −1R if reported loss).
   <b>Real Replay Market</b> = the same signal replayed on Binance USD-M 1-minute candles: entry on touch, stop stays at <b>SL1</b>,
   position held <b>to the final target</b> unless a different model is selected.</p>
+  <p><b>Costs.</b> Every replayed R uses the app’s Binance USD-M cost model: <b>maker 0.02%</b> on the limit entry and
+  <b>taker 0.05%</b> on each exit; funding is not applied. <b>Claim R</b> is the gross price ratio with no costs, so on the same
+  target it is slightly higher than the replayed R (for example a full-target trade can read +4.03R gross versus +3.91R after fees).</p>
   <p><b>Verdict</b> compares the claim with the observed path: CONFLICT (target claimed but stop hit first, or loss claimed
   although a target was reached), PARTIAL (target reached, then stopped), MATCH (claim matches), OPEN (unresolved).</p>
   <p>The R columns are the same candles and entries under different stop management:

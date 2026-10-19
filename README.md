@@ -30,7 +30,11 @@ status and replayed under four stop-management models.
 - Intrabar order is unknown. When a candle touches both the stop and a target,
   the replay refuses to guess and marks the signal ambiguous.
 - Delisted, renamed, or non-listed symbols are excluded from the replay side and
-  shown honestly. Fees and funding are excluded.
+  shown honestly.
+- Replayed R includes Binance USD-M fees (maker 0.02% on entry, taker 0.05% on
+  exits); funding is not applied. **Claim R is a gross price ratio**, so on the
+  same target it reads slightly higher (e.g. a full-target trade shows +4.03R
+  gross versus +3.91R after fees).
 - **Not trading advice.** A past touch is not evidence of a profitable trade.
 
 ## Local preview
