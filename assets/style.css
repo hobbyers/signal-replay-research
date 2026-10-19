@@ -398,8 +398,11 @@ th[data-sort]:hover .arrow{color:var(--accent)}
 .sc-col .kpis{grid-template-columns:repeat(3,1fr);gap:6px 8px}
 .sc-col .kpis dt{font-size:9px}
 .sc-col .kpis dd{font-size:15px}
-.sc-delta{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin-top:12px;padding:8px 12px;border:1px dashed var(--line-strong);border-radius:10px;background:var(--surface);font-size:11.5px;color:var(--muted)}
-.sc-delta .lbl{font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.sc-split{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);font-size:11px;color:var(--faint)}
+.sc-split b{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+.sc-split b.pos{color:var(--pos)}
+.sc-split b.neg{color:var(--neg)}
+.sc-delta{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin-top:12px;padding:8px 12px;border:1px dashed var(--line-strong);border-radius:10px;background:var(--surface);font-size:11.5px;color:var(--muted)}.sc-delta .lbl{font:700 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .sc-delta b{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
 .sc-delta b.pos{color:var(--pos)}
 .sc-delta b.neg{color:var(--neg)}
