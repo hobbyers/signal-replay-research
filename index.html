@@ -72,7 +72,10 @@
   <p>The R columns are the same candles and entries under different stop management:
   <b>hold to final</b> keeps the stop at SL1; <b>move to entry after TP1</b> sets the stop to the entry (breakeven);
   <b>move to tp1 after tp1</b> sets the stop to TP1; <b>move sl to tp2 after tp1</b> sets the stop to TP2 (it only binds
-  once TP2 is actually reached). A “—” means the trade is still open.</p>
+  once TP2 is actually reached). A “—” means the trade is still open. The <b>Exit-management scenarios</b> cards pair each
+  setting with the claim measured on the <b>same signals that resolved under that setting</b>, so the claim and the replay
+  there are directly comparable; counts can differ slightly between cards because a setting may resolve a signal that
+  another leaves open.</p>
   <p>In the chart view the entry is drawn as a position box: <b>green = entry → TP4</b> and <b>red = entry → SL1</b>;
   the <b>model chips</b> show/hide each scenario. Boxes start on the first candle <b>one minute after publication</b>
   (assumed 1-minute execution delay).</p>

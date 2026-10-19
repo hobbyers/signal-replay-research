@@ -62,15 +62,121 @@
     <span>Win rate <b class="neg">+71.1 pp</b></span>
     <span>Net R <b class="neg">+4014.30R</b></span>
     <span>Avg R <b class="neg">+1.738</b></span>
-  </div><section class="models" aria-label="Exit-management comparison">
-    <h2>Exit-management scenarios <span>same candles, same entries · net R after Binance maker 0.02% / taker 0.05% fees</span></h2>
-    <table class="model-table">
-      <thead><tr><th>Model</th><th class="num">Resolved</th><th class="num">Win rate</th><th class="num">Net R</th><th class="num">Avg R</th></tr></thead>
-      <tbody><tr><td><b>hold to final</b><span class="mnote">stop stays at SL1</span></td><td class="num">2210</td><td class="num">12.3%</td><td class="num neg">-770.68R</td><td class="num">-0.349</td></tr>
-<tr><td><b>move to entry after TP1</b><span class="mnote">stop → entry (breakeven)</span></td><td class="num">2226</td><td class="num">4.4%</td><td class="num neg">-342.48R</td><td class="num">-0.154</td></tr>
-<tr><td><b>move to TP1 after TP1</b><span class="mnote">stop → TP1</span></td><td class="num">2234</td><td class="num">66.7%</td><td class="num neg">-93.36R</td><td class="num">-0.042</td></tr>
-<tr><td><b>move SL to TP2 after TP1</b><span class="mnote">stop → TP2</span></td><td class="num">2228</td><td class="num">49.3%</td><td class="num neg">-164.17R</td><td class="num">-0.074</td></tr></tbody>
-    </table>
+  </div><section class="scen-block" aria-label="Exit-management comparison">
+    <h2>Exit-management scenarios <span>same candles, same entries · each card measures the claim (gross) and the replay (after maker 0.02% / taker 0.05% fees) on the <b>same resolved signals</b>, so the two sides are comparable</span></h2>
+    <div class="scen-grid"><article class="card scen-card">
+      <div class="card-head"><h2><span class="dot"></span>hold to final</h2><span class="sub">2210 resolved</span></div>
+      <p class="sc-rule">stop stays at SL1</p>
+      <div class="sc-cols">
+        <div class="sc-col claim">
+          <div class="sc-col-h">LuxQuant claim <span>gross · same signals</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>85.3%</dd></div>
+            <div><dt>Net R</dt><dd class="pos">+3094.54R</dd></div>
+            <div><dt>Avg R</dt><dd class="pos">+1.412</dd></div>
+          </dl>
+        </div>
+        <div class="sc-col real">
+          <div class="sc-col-h">Real Replay <span>after fees</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>12.3%</dd></div>
+            <div><dt>Net R</dt><dd class="neg">-770.68R</dd></div>
+            <div><dt>Avg R</dt><dd class="neg">-0.349</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="sc-delta"><span class="lbl">Claim − Replay</span>
+        <span>Win rate <b class="pos">+73.0 pp</b></span>
+        <span>Net R <b class="pos">+3865.22R</b></span>
+        <span>Avg <b class="pos">+1.761</b></span>
+      </div>
+      <div class="bar"><div class="bar-top"><span>Replay win rate</span><span>12.3%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="--w:12.3%"></div></div></div>
+    </article><article class="card scen-card">
+      <div class="card-head"><h2><span class="dot"></span>move to entry after TP1</h2><span class="sub">2226 resolved</span></div>
+      <p class="sc-rule">stop → entry (breakeven)</p>
+      <div class="sc-cols">
+        <div class="sc-col claim">
+          <div class="sc-col-h">LuxQuant claim <span>gross · same signals</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>85.5%</dd></div>
+            <div><dt>Net R</dt><dd class="pos">+3113.42R</dd></div>
+            <div><dt>Avg R</dt><dd class="pos">+1.411</dd></div>
+          </dl>
+        </div>
+        <div class="sc-col real">
+          <div class="sc-col-h">Real Replay <span>after fees</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>4.4%</dd></div>
+            <div><dt>Net R</dt><dd class="neg">-342.48R</dd></div>
+            <div><dt>Avg R</dt><dd class="neg">-0.154</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="sc-delta"><span class="lbl">Claim − Replay</span>
+        <span>Win rate <b class="pos">+81.1 pp</b></span>
+        <span>Net R <b class="pos">+3455.90R</b></span>
+        <span>Avg <b class="pos">+1.565</b></span>
+      </div>
+      <div class="bar"><div class="bar-top"><span>Replay win rate</span><span>4.4%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="--w:4.4%"></div></div></div>
+    </article><article class="card scen-card">
+      <div class="card-head"><h2><span class="dot"></span>move to TP1 after TP1</h2><span class="sub">2234 resolved</span></div>
+      <p class="sc-rule">stop → TP1</p>
+      <div class="sc-cols">
+        <div class="sc-col claim">
+          <div class="sc-col-h">LuxQuant claim <span>gross · same signals</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>85.5%</dd></div>
+            <div><dt>Net R</dt><dd class="pos">+3124.13R</dd></div>
+            <div><dt>Avg R</dt><dd class="pos">+1.410</dd></div>
+          </dl>
+        </div>
+        <div class="sc-col real">
+          <div class="sc-col-h">Real Replay <span>after fees</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>66.7%</dd></div>
+            <div><dt>Net R</dt><dd class="neg">-93.36R</dd></div>
+            <div><dt>Avg R</dt><dd class="neg">-0.042</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="sc-delta"><span class="lbl">Claim − Replay</span>
+        <span>Win rate <b class="pos">+18.8 pp</b></span>
+        <span>Net R <b class="pos">+3217.49R</b></span>
+        <span>Avg <b class="pos">+1.452</b></span>
+      </div>
+      <div class="bar"><div class="bar-top"><span>Replay win rate</span><span>66.7%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="--w:66.7%"></div></div></div>
+    </article><article class="card scen-card">
+      <div class="card-head"><h2><span class="dot"></span>move SL to TP2 after TP1</h2><span class="sub">2228 resolved</span></div>
+      <p class="sc-rule">stop → TP2</p>
+      <div class="sc-cols">
+        <div class="sc-col claim">
+          <div class="sc-col-h">LuxQuant claim <span>gross · same signals</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>85.5%</dd></div>
+            <div><dt>Net R</dt><dd class="pos">+3120.84R</dd></div>
+            <div><dt>Avg R</dt><dd class="pos">+1.413</dd></div>
+          </dl>
+        </div>
+        <div class="sc-col real">
+          <div class="sc-col-h">Real Replay <span>after fees</span></div>
+          <dl class="kpis">
+            <div><dt>Win rate</dt><dd>49.3%</dd></div>
+            <div><dt>Net R</dt><dd class="neg">-164.17R</dd></div>
+            <div><dt>Avg R</dt><dd class="neg">-0.074</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="sc-delta"><span class="lbl">Claim − Replay</span>
+        <span>Win rate <b class="pos">+36.1 pp</b></span>
+        <span>Net R <b class="pos">+3285.01R</b></span>
+        <span>Avg <b class="pos">+1.486</b></span>
+      </div>
+      <div class="bar"><div class="bar-top"><span>Replay win rate</span><span>49.3%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="--w:49.3%"></div></div></div>
+    </article></div>
   </section><section class="quality" aria-label="Claim vs observation">
     <div class="quality-head">
       <span class="quality-eyebrow">Claim vs observed outcome</span>
@@ -150,7 +256,10 @@
   <p>The R columns are the same candles and entries under different stop management:
   <b>hold to final</b> keeps the stop at SL1; <b>move to entry after TP1</b> sets the stop to the entry (breakeven);
   <b>move to tp1 after tp1</b> sets the stop to TP1; <b>move sl to tp2 after tp1</b> sets the stop to TP2 (it only binds
-  once TP2 is actually reached). A “—” means the trade is still open.</p>
+  once TP2 is actually reached). A “—” means the trade is still open. The <b>Exit-management scenarios</b> cards pair each
+  setting with the claim measured on the <b>same signals that resolved under that setting</b>, so the claim and the replay
+  there are directly comparable; counts can differ slightly between cards because a setting may resolve a signal that
+  another leaves open.</p>
   <p>In the chart view the entry is drawn as a position box: <b>green = entry → TP4</b> and <b>red = entry → SL1</b>;
   the <b>model chips</b> show/hide each scenario. Boxes start on the first candle <b>one minute after publication</b>
   (assumed 1-minute execution delay).</p>
