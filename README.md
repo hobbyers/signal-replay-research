@@ -34,6 +34,10 @@ The replay applies four stop rules to the same candle path:
 > is more conservative; the headline claim and hold-to-final figures above are
 > unchanged.
 
+> **Chart update (2026-10-20):** every chart now uses **1-minute** candles
+> instead of the previous 5m/15m/1h snapshots. Candle files are loaded only
+> when a chart modal opens, so the ledger JSON stays small.
+
 ## Read this first
 
 - **Claim** is not a price record. It is the exit implied by the provider's
