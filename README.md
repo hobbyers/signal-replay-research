@@ -19,6 +19,21 @@ status and replayed under four stop-management models.
 | 7 days | 251 | 198 | +216.32R | −115.76R |
 | 30 days | 2362 | 2210 | +3243.62R | −770.68R |
 
+## Stop-management models
+
+The replay applies four stop rules to the same candle path:
+
+1. **hold to final** — the stop stays at `stop1` (SL1).
+2. **move to entry after TP1** — after TP1, the stop moves to the entry (breakeven).
+3. **move to TP1 after TP1** — after TP1, the stop moves to TP1.
+4. **move SL to TP1 after TP2** — only after TP2 is reached, the stop moves to TP1; before that it stays at SL1.
+
+> **Correction (2026-10-20):** the fourth model was previously computed and
+> labeled as “move SL to TP2 after TP1”. It is now correctly computed as
+> “move SL to TP1 after TP2”, and all replay data, tables and charts were
+> regenerated. The corrected rule is more conservative; the headline claim and
+> hold-to-final figures above are unchanged.
+
 ## Read this first
 
 - **Claim** is not a price record. It is the exit implied by the provider's
